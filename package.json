@@ -1,0 +1,14 @@
+{
+    "name": "unsplash",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "client": "cd unsplash-client && yarn start",
+        "server": "cd unsplash-be && yarn start",
+        "start": "concurrently \"npm run client\" \"npm run server\" "
+    },
+    "devDependencies": {
+        "concurrently": "^6.2.0"
+    }
+}
