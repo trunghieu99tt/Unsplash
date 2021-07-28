@@ -1,22 +1,25 @@
 import React from "react";
 
-import { useAppContext } from "./context/app.context";
+import { useApp } from "./talons/useApp";
 
 // components
-import Footer from "./components/Footer";
 import Header from "./components/Header";
+import ImageMasonry from "./components/ImageMasonry";
+import PopupWrapper from "./components/PopupWrapper";
+
+// styles
+import "./App.css";
 
 const App = () => {
-    const {
-        state: { popup },
-        dispatch,
-    } = useAppContext();
-    return (
-        <div>
-            <Header />
-            <Footer />
-        </div>
-    );
+	const appTalons = useApp();
+
+	return (
+		<React.Fragment>
+			<PopupWrapper />
+			<Header />
+			<ImageMasonry />
+		</React.Fragment>
+	);
 };
 
 export default App;

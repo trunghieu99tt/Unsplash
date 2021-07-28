@@ -19,6 +19,12 @@ export type TAppAction =
     } | {
         type: 'SET_POP_UP';
         payload: TPopUp | null
+    } | {
+        type: 'SET_USER';
+        payload: TUser;
+    } | {
+        type: 'SET_TOTAL_NUMBER',
+        payload: number
     };
 
 export type TAppDispatch = (action: TAppAction) => void;
@@ -31,7 +37,6 @@ export type TAppContextProps = {
 
 export type TUser = {
     username: string;
-    password: string;
 }
 
 export type TImage = {
@@ -47,4 +52,5 @@ export type TAppState = {
     page: number;
     user: TUser | null;
     popup: null | TPopUp;
+    totalNumber: number;
 }

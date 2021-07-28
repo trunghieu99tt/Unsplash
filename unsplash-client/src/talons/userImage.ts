@@ -1,30 +1,32 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import client from "../api/client"
 import { useAppContext } from "../context/app.context";
 import { TImage } from "../types/app.types";
 
 export const useImage = () => {
 
-    const { state: { nameQuery, images, page }, dispatch } = useAppContext();
+    const { state: { nameQuery, images, page, user }, dispatch } = useAppContext();
 
-    const getImagesByName = useCallback(async (limit: number = 12) => {
-        const response = await client.get(`/images?name=${nameQuery || ''}&page=${page || 1}&limit=${limit}`);
+
+    const getImagesByName = useCallback(async (limit: number = 10) => {
+        const response = await client.get(`/image?name=${nameQuery || ''}&page=${page || 1}&limit=${limit}`);
         const responseImages = response.data;
         dispatch({
             type: "SET_IMAGES",
-            payload: [...images, ...responseImages]
+            payload: [...(page > 1 ? images : []), ...responseImages.images]
         });
-    }, [dispatch, images, nameQuery, page]);
+        dispatch({
+            type: 'SET_TOTAL_NUMBER',
+            payload: responseImages.total
+        });
+    }, [nameQuery, page]);
 
-    useEffect(() => {
+    const createImage = async (image: Partial<TImage>) => {
+        await client.post(`/image`, {
+            ...image,
+            user
+        });
         getImagesByName();
-    }, [getImagesByName, nameQuery, page]);
-
-    const createImage = async (image: TImage) => {
-        await client.post(`/images`, image);
-        if (nameQuery.length > 0 && image.name.includes(nameQuery)) {
-            dispatch({ type: 'SET_PAGE', payload: 1 });
-        }
     };
 
     return {

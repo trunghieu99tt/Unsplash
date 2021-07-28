@@ -1,0 +1,12 @@
+.root {
+	margin-bottom: 1.8rem;
+}
+
+.label {
+	font-weight: 600;
+	font-size: 1.4rem;
+	line-height: 19px;
+	color: #4f4f4f;
+	margin-bottom: 1rem;
+	display: inline-block;
+}

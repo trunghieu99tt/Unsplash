@@ -1,0 +1,52 @@
+.root {
+	position: relative;
+	margin-bottom: 3rem;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.imageContainer {
+	width: 100%;
+	overflow: hidden;
+}
+
+.image {
+	height: 100%;
+	width: 100%;
+	border-radius: 8px;
+}
+
+.actions {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	transform: translateY(100%);
+	transition: all 0.5s;
+}
+
+.root:hover .actions {
+	transform: translateY(0);
+}
+
+.deleteBtn {
+	border: none;
+	background-color: transparent;
+	border: 1px solid red;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding: 0.5rem;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.deleteBtn svg {
+	--size: 2rem;
+	width: var(--size);
+	height: var(--size);
+	color: red;
+}
