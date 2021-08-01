@@ -4,9 +4,11 @@
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem 0;
+	margin-bottom: 5rem;
 }
 
-.left {
+.left,
+.right {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
@@ -46,16 +48,24 @@
 .imageQueryInput:focus {
 	outline: none;
 }
-/* 
-.btn {
-	background: #3db46d;
-	box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-	border-radius: 12px;
-	font-size: 1.6rem;
-	font-weight: 600;
-	padding: 1rem 2rem;
-	border: none;
-	outline: none;
-	color: #fff;
-	letter-spacing: 1px;
-} */
+
+.buttonInner {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+@media (max-width: 768px) {
+	.root {
+		flex-wrap: wrap;
+		gap: 2rem;
+		justify-content: center;
+	}
+}
+
+@media (max-width: 500px) {
+	.left {
+		flex-direction: column;
+		gap: 1rem;
+	}
+}

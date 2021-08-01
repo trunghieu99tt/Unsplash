@@ -5,12 +5,12 @@ import { useImage } from "./userImage"
 
 export const useApp = () => {
 
-    const { state: { page, nameQuery }, dispatch } = useAppContext();
+    const { state: { nameQuery, page }, dispatch } = useAppContext();
     const { getImagesByName } = useImage();
 
     useEffect(() => {
         getImagesByName();
-    }, [page, nameQuery]);
+    }, [nameQuery, page]);
 
     useEffect(() => {
         const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token') || '') : null;
@@ -18,7 +18,6 @@ export const useApp = () => {
         if (token) {
             getUserData();
         }
-
     }, []);
 
     const getUserData = async () => {

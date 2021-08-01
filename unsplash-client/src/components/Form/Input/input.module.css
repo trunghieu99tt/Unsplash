@@ -1,6 +1,5 @@
 .root {
-	border: 1px solid #4f4f4f;
+	border: 0.5px solid #cac3c3;
 	padding: 0.5rem;
 	width: 100%;
-	border-radius: 0.5rem;
 }

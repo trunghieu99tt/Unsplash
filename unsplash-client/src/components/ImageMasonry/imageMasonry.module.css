@@ -4,8 +4,8 @@
 	display: flex;
 	width: auto;
 	margin: 0 3rem;
+	gap: 3rem;
 }
 .column {
-	padding-left: 30px; /* gutter size */
 	background-clip: padding-box;
 }

@@ -3,11 +3,14 @@ import { useAppContext } from "../../context/app.context";
 
 // utils
 import mergeClasses from "../../utils/mergeClasses";
+
+// components
 import Auth from "../Auth";
 import CreateImageForm from "../CreateImageForm";
 import DeleteImageForm from "../DeleteImageForm";
 
-// components
+// icons
+import { GiCancel } from "react-icons/gi";
 
 // styles
 import defaultClasses from "./popupWrapper.module.css";
@@ -46,7 +49,12 @@ const PopupWrapper = ({ classes: propsClasses }: Props) => {
 	return (
 		<React.Fragment>
 			<div className={classes.mask} onClick={onClosePopup}></div>
-			<div className={classes.root}>{content}</div>
+			<div className={classes.root}>
+				<button onClick={onClosePopup} className={classes.close}>
+					<GiCancel />
+				</button>
+				{content}
+			</div>
 		</React.Fragment>
 	);
 };

@@ -11,12 +11,13 @@ import {
 
 const initialState: TAppState = {
 	nameQuery: "",
-	images: [],
+	images: {},
 	page: 1,
 	user: null,
 	loading: false,
 	popup: null,
 	totalNumber: 0,
+	activeImage: null,
 };
 
 const AppContext = React.createContext<{
@@ -29,7 +30,10 @@ const appReducer = (state: TAppState = initialState, action: TAppAction) => {
 		case "SET_IMAGES":
 			return {
 				...state,
-				images: action.payload,
+				images: {
+					...state.images,
+					[action.payload.page]: action.payload.images,
+				},
 			};
 		case "SET_LOADING":
 			return {
@@ -60,6 +64,11 @@ const appReducer = (state: TAppState = initialState, action: TAppAction) => {
 			return {
 				...state,
 				totalNumber: action.payload,
+			};
+		case "SET_ACTIVE_IMAGE":
+			return {
+				...state,
+				activeImage: action.payload,
 			};
 		default:
 			return state;

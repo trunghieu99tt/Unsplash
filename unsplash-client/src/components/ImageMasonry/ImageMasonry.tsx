@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import { SRLWrapper } from "simple-react-lightbox";
 import { useAppContext } from "../../context/app.context";
 
 // components
@@ -14,19 +14,27 @@ import mergeClasses from "../../utils/mergeClasses";
 
 // styles
 import defaultClasses from "./imageMasonry.module.css";
+import { useMemo } from "react";
+import { useImage } from "../../talons/userImage";
 
 interface Props {
 	classes?: object;
 }
 
-const masonryOptions = {
-	transitionDuration: 0,
+const loader = <h4>Loading...</h4>;
+
+const breakpointColumnsObj = {
+	default: 4,
+	1100: 3,
+	700: 2,
+	500: 1,
 };
 
 const ImageMasonry = ({ classes: propsClasses }: Props) => {
 	const classes = mergeClasses(defaultClasses, propsClasses);
 
 	const { state, dispatch } = useAppContext();
+	const { allImages } = useImage();
 
 	const fetchData = () => {
 		dispatch({
@@ -35,27 +43,29 @@ const ImageMasonry = ({ classes: propsClasses }: Props) => {
 		});
 	};
 
-	const images = state.images;
-
-	const childElements = images?.map((image: TImage) => {
-		return <ImageCard src={image.url} alt={image.name} />;
-	});
+	const childElements = useMemo(() => {
+		return allImages.map((image: TImage) => {
+			return <ImageCard data={image} key={image._id} />;
+		});
+	}, [allImages]);
 
 	return (
 		<main className={classes.root}>
 			<InfiniteScroll
-				dataLength={images.length}
+				dataLength={allImages.length}
 				next={fetchData}
-				hasMore={images.length < state.totalNumber}
-				loader={<h4>Loading...</h4>}
+				hasMore={allImages.length < state.totalNumber}
+				loader={loader}
 			>
-				<Masonry
-					breakpointCols={5}
-					className={classes.grid}
-					columnClassName={classes.column}
-				>
-					{childElements}
-				</Masonry>
+				<SRLWrapper>
+					<Masonry
+						className={classes.grid}
+						columnClassName={classes.column}
+						breakpointCols={breakpointColumnsObj}
+					>
+						{childElements}
+					</Masonry>
+				</SRLWrapper>
 			</InfiniteScroll>
 		</main>
 	);

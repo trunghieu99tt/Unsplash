@@ -11,6 +11,7 @@ import SubmitButton from "../SubmitButton";
 
 // styles
 import defaultClasses from "./auth.module.css";
+import { toast } from "react-toastify";
 
 interface Props {
 	classes?: object;
@@ -41,18 +42,20 @@ const Auth = ({ classes: propsClasses }: Props) => {
 
 	const onSubmit = async () => {
 		const endpoint = isSignIn ? "/signIn" : "signUp";
-		const response = await client.post(endpoint, formValue);
-		console.log(`response`, response);
-		if ([200, 201].includes(response.status)) {
-			const token = response?.data?.token;
-			if (token) {
-				window.localStorage.setItem("token", JSON.stringify(token));
-				dispatch({ type: "SET_USER", payload: response.data.user });
+		try {
+			const response = await client.post(endpoint, formValue);
+			if ([200, 201].includes(response.status)) {
+				const token = response?.data?.token;
+				if (token) {
+					window.localStorage.setItem("token", JSON.stringify(token));
+					dispatch({ type: "SET_USER", payload: response.data.user });
+				}
+				onCloseForm();
 			}
-			onCloseForm();
+		} catch (error) {
+			toast.error(error.message);
 		}
 	};
-
 	const toggleSignIn = () => setIsSignIn((value) => !value);
 
 	return (
@@ -82,9 +85,6 @@ const Auth = ({ classes: propsClasses }: Props) => {
 					<SubmitButton onClick={onSubmit}>
 						{isSignIn ? "Sign In" : "Sign Up"}
 					</SubmitButton>
-					<button onClick={onCloseForm} className={classes.closeBtn}>
-						Cancel
-					</button>
 				</div>
 			</div>
 		</div>

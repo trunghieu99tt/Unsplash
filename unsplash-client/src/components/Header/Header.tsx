@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { useAppContext } from "../../context/app.context";
 
@@ -10,7 +10,9 @@ import Input from "../Form/Input";
 import SubmitButton from "../SubmitButton";
 
 // icons
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiImageAdd } from "react-icons/bi";
+import { FaUserAstronaut } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 
 // styles
 import defaultClasses from "./header.module.css";
@@ -40,12 +42,17 @@ const Header = ({ classes: propsClasses }: Props) => {
 		dispatch({ type: "SET_NAME_QUERY", payload: imageName });
 	};
 
-	const onClickBtn = () => {
+	const onClickBtn = useCallback(() => {
 		if (user) {
 			dispatch({ type: "SET_POP_UP", payload: "CREATE_IMAGE" });
 		} else {
 			dispatch({ type: "SET_POP_UP", payload: "AUTH" });
 		}
+	}, [user]);
+
+	const onLogout = () => {
+		dispatch({ type: "SET_USER", payload: null });
+		localStorage.removeItem("token");
 	};
 
 	return (
@@ -76,8 +83,28 @@ const Header = ({ classes: propsClasses }: Props) => {
 			</section>
 			<section className={classes.right}>
 				<SubmitButton onClick={onClickBtn}>
-					{user ? `Create new image` : "Login"}
+					<div className={classes.buttonInner}>
+						{user ? (
+							<React.Fragment>
+								<BiImageAdd />
+								<span>Create Image</span>
+							</React.Fragment>
+						) : (
+							<React.Fragment>
+								<FaUserAstronaut />
+								<span>Login</span>
+							</React.Fragment>
+						)}
+					</div>
 				</SubmitButton>
+
+				{user && (
+					<SubmitButton onClick={onLogout}>
+						<div className={classes.buttonInner}>
+							<FiLogOut /> Logout
+						</div>
+					</SubmitButton>
+				)}
 			</section>
 		</header>
 	);

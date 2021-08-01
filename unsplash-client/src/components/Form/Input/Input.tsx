@@ -9,6 +9,7 @@ interface Props {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	value: string;
 	name: string;
+	required?: boolean;
 	classes?: object;
 }
 
@@ -19,6 +20,7 @@ const Input = (props: Props) => {
 		onChange,
 		value,
 		name,
+		required,
 		classes: propsClasses,
 	} = props;
 
@@ -32,6 +34,7 @@ const Input = (props: Props) => {
 			value={value}
 			name={name}
 			className={classes.root}
+			required={required}
 		/>
 	);
 };

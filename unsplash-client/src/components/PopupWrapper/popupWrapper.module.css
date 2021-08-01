@@ -20,3 +20,19 @@
 	width: 500px;
 	max-width: 95%;
 }
+
+.close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	border: none;
+	background: none;
+}
+
+.close svg {
+	--size: 2rem;
+	width: var(--size);
+	height: var(--size);
+	fill: #4b4747;
+	cursor: pointer;
+}

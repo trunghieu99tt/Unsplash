@@ -11,6 +11,7 @@ interface Props {
 	name: string;
 	value: any;
 	placeholder?: string;
+	required?: boolean;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ const FormGroup = ({
 	value,
 	placeholder,
 	onChange,
+	required = false,
 }: Props) => {
 	const classes = mergeClasses(defaultClasses, propsClasses);
 
@@ -37,6 +39,7 @@ const FormGroup = ({
 					type={type}
 					name={name}
 					placeholder={placeholder}
+					required={required}
 				/>
 			</div>
 		</div>

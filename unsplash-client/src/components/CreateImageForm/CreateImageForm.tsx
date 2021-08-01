@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import client from "../../api/client";
+import { toast } from "react-toastify";
 
 // talons
 import { useAppContext } from "../../context/app.context";
@@ -24,7 +24,7 @@ const CreateImageForm = ({ classes: propsClasses }: Props) => {
 
 	const { dispatch } = useAppContext();
 
-	const { createImage } = useImage();
+	const { createImage, imageExists } = useImage();
 
 	const [formValue, setFormValue] = React.useState({
 		name: "",
@@ -45,10 +45,24 @@ const CreateImageForm = ({ classes: propsClasses }: Props) => {
 
 	const onSubmit = async () => {
 		if (formValue.name === "" || formValue.url === "") {
+			toast.error("Please fill in all fields.");
 			return;
 		}
-		await createImage(formValue);
-		onCloseForm();
+
+		const isOk = await imageExists(formValue.url);
+
+		if (!isOk) {
+			toast.error("Image is invalid");
+			return;
+		}
+
+		try {
+			await createImage(formValue);
+			onCloseForm();
+			toast.success("Image created");
+		} catch (error) {
+			toast.error(error.message);
+		}
 	};
 
 	return (
@@ -60,6 +74,7 @@ const CreateImageForm = ({ classes: propsClasses }: Props) => {
 				onChange={onChange}
 				type="text"
 				value={formValue.name}
+				required={true}
 			/>
 			<FormGroup
 				name="url"
@@ -67,12 +82,10 @@ const CreateImageForm = ({ classes: propsClasses }: Props) => {
 				onChange={onChange}
 				type="text"
 				value={formValue.url}
+				required={true}
 			/>
 			<div className={classes.buttons}>
 				<SubmitButton onClick={onSubmit}>Create</SubmitButton>
-				<button onClick={onCloseForm} className={classes.closeBtn}>
-					Cancel
-				</button>
 			</div>
 		</div>
 	);

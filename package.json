@@ -10,5 +10,11 @@
     },
     "devDependencies": {
         "concurrently": "^6.2.0"
+    },
+    "dependencies": {
+        "@types/simple-react-lightbox": "^3.6.1",
+        "classnames": "^2.3.1",
+        "jsonwebtoken": "^8.5.1",
+        "simple-react-lightbox": "^3.6.6"
     }
 }
