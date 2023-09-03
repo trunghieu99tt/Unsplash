@@ -58,13 +58,14 @@ const Header = ({ classes: propsClasses }: Props) => {
 	return (
 		<header className={classes.root}>
 			<section className={classes.left}>
-				<figure className={classes.logoWrapper}>
-					<img
-						src={require("../../assets/images/my_unsplash_logo.svg").default}
-						alt="logo"
-					/>
-				</figure>
-
+				<a href="/">
+					<figure className={classes.logoWrapper}>
+						<img
+							src={require("../../assets/images/my_unsplash_logo.svg").default}
+							alt="logo"
+						/>
+					</figure>
+				</a>
 				<div className={classes.search}>
 					<button className={classes.searchBtn} onClick={onSearchImage}>
 						<BiSearch />

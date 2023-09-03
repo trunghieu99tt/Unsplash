@@ -50,6 +50,7 @@ const CreateImageForm = ({ classes: propsClasses }: Props) => {
 		}
 
 		const isOk = await imageExists(formValue.url);
+		console.log("isOk", isOk);
 
 		if (!isOk) {
 			toast.error("Image is invalid");

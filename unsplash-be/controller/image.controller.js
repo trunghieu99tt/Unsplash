@@ -12,7 +12,7 @@ exports.createImage = (req, res) => {
                 message: err,
             });
         }
-        res.status(200).json(image);
+        res.status(201).json(image);
     });
 };
 
