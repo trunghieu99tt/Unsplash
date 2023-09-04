@@ -5,7 +5,7 @@ import { useImage } from "./userImage"
 
 export const useApp = () => {
 
-    const { state: { nameQuery, page }, dispatch } = useAppContext();
+    const { state: { nameQuery, page, loading}, dispatch } = useAppContext();
     const { getImagesByName } = useImage();
 
     useEffect(() => {
@@ -14,23 +14,24 @@ export const useApp = () => {
 
     useEffect(() => {
         const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token') || '') : null;
+        async function getUserData(){
+            try {
+                const response = await client.get('/getMe');
+                const user = response?.data.user;
+                dispatch({ type: 'SET_USER', payload: user })
+            } catch (error) {
+                console.log(`error`, error);
+                window.localStorage.removeItem('token');
+            }
+        }
 
         if (token) {
             getUserData();
         }
-    }, []);
+    }, [dispatch]);
 
-    const getUserData = async () => {
-        try {
-            const response = await client.get('/getMe');
-            const user = response?.data.user;
-            dispatch({ type: 'SET_USER', payload: user })
-        } catch (error) {
-            console.log(`error`, error);
-            window.localStorage.removeItem('token');
-        }
+
+    return {
+        loading
     }
-
-    return {}
-
 }

@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import {useMemo} from "react";
 import client from "../api/client";
-import { useAppContext } from "../context/app.context";
-import { TImage } from "../types/app.types";
-import { checkImage } from "../utils/helper";
+import {useAppContext} from "../context/app.context";
+import {TImage} from "../types/app.types";
+import {checkImage} from "../utils/helper";
 
 export const useImage = () => {
 	const {
@@ -11,6 +11,10 @@ export const useImage = () => {
 	} = useAppContext();
 
 	const getImagesByName = async (limit: number = 10) => {
+		dispatch({
+			type: "SET_LOADING",
+			payload: true,
+		})
 		const response = await client.get(
 			`/image?name=${nameQuery || ""}&page=${page || 1}&limit=${limit}`
 		);
@@ -26,23 +30,43 @@ export const useImage = () => {
 			type: "SET_TOTAL_NUMBER",
 			payload: responseImages.total,
 		});
+		dispatch({
+			type: "SET_LOADING",
+			payload: false,
+		})
 	};
 
 	const createImage = async (image: Partial<TImage>) => {
+		dispatch({
+			type: "SET_LOADING",
+			payload: true,
+		})
 		const response = await client.post(`/image`, {
 			...image,
 			user,
 		});
-		console.log("response", response);
 		if (response.status === 201) {
-			getImagesByName();
+			await getImagesByName();
 		}
+		dispatch({
+			type: "SET_LOADING",
+			payload: false,
+		})
 	};
 
 	const deleteImage = async (imageId: string, data: { password: string }) => {
+		dispatch({
+			type: "SET_LOADING",
+			payload: true,
+		})
 		const response = await client.delete(`/image/${imageId}`, {
 			data,
 		});
+		dispatch({
+			type: "SET_LOADING",
+			payload: false,
+		})
+
 		return response;
 	};
 

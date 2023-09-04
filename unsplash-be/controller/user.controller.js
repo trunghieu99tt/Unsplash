@@ -15,7 +15,8 @@ const verifyUser = async (username, password) => {
 
 exports.signIn = async (req, res) => {
     const { username, password } = req.body;
-    if (verifyUser(username, password)) {
+    const isUserValid = await verifyUser(username, password);
+    if (isUserValid) {
         // if user is verified, return user info except password
         const user = await User.findOne({ username }).select("-password");
 
@@ -47,7 +48,7 @@ exports.signUp = async (req, res) => {
         });
     } else {
         try {
-            var user = new User({ username, password });
+            const user = new User({ username, password });
             const newUser = await user.save();
             const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
                 expiresIn: JWT_EXPIRE_IN,

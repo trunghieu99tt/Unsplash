@@ -11,12 +11,15 @@ import { ToastContainer } from "react-toastify";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Loader from "./components/loader";
 
 const App = () => {
-	const appTalons = useApp();
+	const {loading} = useApp();
+	console.log('loading', loading)
 
 	return (
 		<React.Fragment>
+			{loading && <Loader />}
 			<PopupWrapper />
 			<Header />
 			<ImageMasonry />

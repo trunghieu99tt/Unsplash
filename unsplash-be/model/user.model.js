@@ -1,9 +1,9 @@
 // create user model using mongoose
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+const userSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -14,7 +14,7 @@ var userSchema = new Schema({
 
 // create pre save callback that encrypt password
 userSchema.pre("save", function (next) {
-    var user = this;
+    const user = this;
     if (!user.isModified("password")) return next();
     bcrypt.genSalt(10, function (err, salt) {
         if (err) return next(err);

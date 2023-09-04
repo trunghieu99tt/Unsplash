@@ -1,5 +1,4 @@
 const Image = require("../model/image.model");
-const User = require("../model/user.model");
 const { verifyUser } = require("../controller/user.controller");
 
 exports.createImage = (req, res) => {
@@ -20,16 +19,16 @@ exports.createImage = (req, res) => {
 exports.deleteImageById = (req, res) => {
     verifyUser(req.username, req.body.password).then((isOk, err) => {
         if (isOk) {
-            // Image.findByIdAndDelete(req.params.id, (err, image) => {
-            //     if (err) {
-            //         return res.status(500).send({
-            //             message: err,
-            //         });
-            //     }
-            //     res.status(200).json({
-            //         message: "Image deleted successfully",
-            //     });
-            // });
+            Image.findByIdAndDelete(req.params.id, (err, image) => {
+                if (err) {
+                    return res.status(500).send({
+                        message: err,
+                    });
+                }
+                res.status(200).json({
+                    message: "Image deleted successfully",
+                });
+            });
         } else {
             res.status(400).json({
                 message: "Password is incorrect!",

@@ -38,6 +38,7 @@ const Header = ({ classes: propsClasses }: Props) => {
 	};
 
 	const onSearchImage = async () => {
+		dispatch({type: 'SET_LOADING', payload: true})
 		dispatch({ type: "SET_PAGE", payload: 1 });
 		dispatch({ type: "SET_NAME_QUERY", payload: imageName });
 	};
@@ -48,7 +49,7 @@ const Header = ({ classes: propsClasses }: Props) => {
 		} else {
 			dispatch({ type: "SET_POP_UP", payload: "AUTH" });
 		}
-	}, [user]);
+	}, [dispatch, user]);
 
 	const onLogout = () => {
 		dispatch({ type: "SET_USER", payload: null });
